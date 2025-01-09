@@ -4,19 +4,19 @@ public class User {
     public String email;
     public String phone;
     public String address;
-    public boolean isAdmin; // Dodaj ovu promenljivu
+    public int isAdmin; // Promenjen tip u int, umesto boolean
 
-    public User(int id, String name, String email, String phone, String address, boolean isAdmin) {
+    // Konstruktor koji prihvata int za isAdmin (1 za admin, 2 za super admin)
+    public User(int id, String name, String email, String phone, String address, int isAdmin) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
-        this.isAdmin = isAdmin;
-
-
+        this.isAdmin = isAdmin; // Koristi int umesto boolean
     }
 
+    // Getter za ID
     public int getId() {
         return id;
     }
@@ -59,12 +59,12 @@ public class User {
         this.address = address;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    // Getter i setter za isAdmin
+    public int getIsAdmin() {
+        return isAdmin; // Vraća int vrednost
     }
 
-    public void setAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setIsAdmin(int isAdmin) {
+        this.isAdmin = isAdmin; // Postavlja vrednost int za isAdmin
     }
 }
-

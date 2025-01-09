@@ -86,8 +86,7 @@ public class RegistrationForm extends JDialog{
 
             int addedRows = preparedStatement.executeUpdate();
 
-
-            // Ako je korisnik uspešno dodat, povuci podatke o njemu
+// Ako je korisnik uspešno dodat, povuci podatke o njemu
             if (addedRows > 0) {
                 String getUserSql = "SELECT id, name, email, phone, address, isAdmin FROM users WHERE email = ?";
                 preparedStatement = conn.prepareStatement(getUserSql);
@@ -96,13 +95,16 @@ public class RegistrationForm extends JDialog{
 
                 if (rs.next()) {
                     // Kreiraj User objekat
+                    boolean isAdminBoolean = rs.getBoolean("isAdmin"); // Ovdje uzimamo boolean vrednost
+                    int isAdminInt = isAdminBoolean ? 1 : 0;  // Mapiraj boolean na int (1 ili 0)
+
                     user = new User(
                             rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("phone"),
                             rs.getString("address"),
-                            rs.getBoolean("isAdmin") // Dodaj isAdmin
+                            isAdminInt // Koristi int vrednost za isAdmin
                     );
                 }
             }

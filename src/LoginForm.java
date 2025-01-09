@@ -12,7 +12,13 @@ public class LoginForm extends JDialog {
     private JPanel loginPanel;
 
     public User user; // Trenutno prijavljeni korisnik
+    public void logout() {
+        user = null; // Resetuj korisnika
+        tfEmail.setText("");  // Očisti polje za email
+        pfPassword.setText(""); // Očisti polje za lozinku
+        // Očisti druge UI elemente, ako je potrebno
 
+    }
     public LoginForm(JFrame parent) {
         super(parent);
         setTitle("Login");
@@ -53,6 +59,7 @@ public class LoginForm extends JDialog {
     }
 
     // Autentifikacija korisnika na osnovu email-a i password-a
+// Autentifikacija korisnika na osnovu email-a i password-a
     private User authenticateUser(String email, String password) {
         User user = null;
         final String DB_URL = "jdbc:mysql://localhost/managment?serverTimeZone=UTC";
@@ -68,21 +75,26 @@ public class LoginForm extends JDialog {
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.next()) {
+                int isAdminValue = rs.getInt("isAdmin");  // Koristi direktnu vrijednost iz baze
+
                 user = new User(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phone"),
                         rs.getString("address"),
-                        rs.getBoolean("isAdmin")
+                        isAdminValue // Koristi int vrednost za isAdmin
                 );
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Greška prilikom autentifikacije: " + e.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
         return user;
     }
+
+
 
     // Testiranje LoginForm-a
     public static void main(String[] args) {
